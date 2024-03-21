@@ -1,12 +1,11 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class RoomSpawner : MonoBehaviour
 {
+    public event Action<int> OnGenerationFinished;
+
     [SerializeField] private LevelGenerator _generator;
     [SerializeField] private float _xMultiplier;
     [SerializeField] private float _yMultiplier;
@@ -27,6 +26,8 @@ public class RoomSpawner : MonoBehaviour
         _parent.name = "Rooms";
 
         SpawnRooms();
+
+        OnGenerationFinished?.Invoke(_generatedRooms.Count);
     }
 
     private void SpawnRooms(){
